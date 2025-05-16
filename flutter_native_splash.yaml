@@ -1,0 +1,10 @@
+flutter_native_splash:
+  color: "#CDE8F4"
+  image: assets/logo/logo512.png
+  #branding: assets/logo/logo512.png
+  #branding_mode: bottom
+  color_dark: "#243B53"
+  image_dark: assets/logo/logo512.png
+  branding_dark: assets/logo/logo512.png
+  android: true
+  ios: true

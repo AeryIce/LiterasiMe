@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "207292100875",
+    "project_id": "literasime-b86cf",
+    "storage_bucket": "literasime-b86cf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207292100875:android:c5ecc57131f04d7f47720e",
+        "android_client_info": {
+          "package_name": "com.literasime.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "207292100875-5k8o6g8e8hr7emu2v0i7sel5ig3p8mij.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.literasime.app",
+            "certificate_hash": "13d8dae142c4794a4b21e77b3578048d52312e7b"
+          }
+        },
+        {
+          "client_id": "207292100875-43ktj3k6jb99d52is6hq7eq14d6mgi9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdnnXiBwnjZjBDntMqjWxymfHi8rQ2QW8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "207292100875-43ktj3k6jb99d52is6hq7eq14d6mgi9m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
