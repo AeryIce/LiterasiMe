@@ -2,13 +2,13 @@ class UserStatic {
   final String uid;
   final String email;
   final String? displayName;
-  final String? photoURL;
+  final String? photoUrl;
 
   UserStatic({
     required this.uid,
     required this.email,
     this.displayName,
-    this.photoURL,
+    this.photoUrl,
   });
 
   Map<String, dynamic> toMap() {
@@ -16,7 +16,7 @@ class UserStatic {
       'uid': uid,
       'email': email,
       'displayName': displayName,
-      'photoURL': photoURL,
+      'photoUrl': photoUrl,
     };
   }
 
@@ -25,7 +25,7 @@ class UserStatic {
       uid: map['uid'],
       email: map['email'],
       displayName: map['displayName'],
-      photoURL: map['photoURL'],
+      photoUrl: map['photoUrl'],
     );
   }
 }

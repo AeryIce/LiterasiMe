@@ -39,7 +39,7 @@ class _SignUpPageState extends State<SignUpPage> {
           uid: user.uid,
           email: user.email ?? '',
           displayName: user.displayName ?? '',
-          photoURL: user.photoURL,
+          photoUrl: user.photoURL,
         );
 
         final metaData = UserMeta(

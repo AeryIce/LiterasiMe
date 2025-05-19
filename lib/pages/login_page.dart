@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
         uid: user.uid,
         email: user.email ?? '',
         displayName: user.displayName ?? '',
-        photoURL: user.photoURL,
+        photoUrl: user.photoURL,
       );
       await userDocRef.set(staticData.toMap());
     } else {
