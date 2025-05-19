@@ -8,6 +8,7 @@ import 'theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:literasime/pages/login_page.dart';
+import 'pages/profile_page.dart';
 
 // ✅ Tambahkan ini untuk integrasi Firebase yang benar
 import 'firebase_options.dart';
@@ -25,9 +26,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
 
   // ✅ Inisialisasi Firebase dengan konfigurasi multi-platform
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // 🔒 Optional: paksa logout saat pertama dijalankan (untuk pengujian)
   // await FirebaseAuth.instance.signOut();
@@ -44,7 +43,11 @@ class LiterasiMeApp extends StatelessWidget {
       title: 'LiterasiMe',
       debugShowCheckedModeBanner: false,
       theme: literasiMeTheme,
-      home: const AuthGate(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const AuthGate(),
+        '/profil': (context) => const ProfilePage(),
+      },
     );
   }
 }

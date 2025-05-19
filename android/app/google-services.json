@@ -37,6 +37,13 @@
             {
               "client_id": "207292100875-43ktj3k6jb99d52is6hq7eq14d6mgi9m.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "207292100875-d5vip4f56kuu3b5rt39gemj906nhncuo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.literasime"
+              }
             }
           ]
         }

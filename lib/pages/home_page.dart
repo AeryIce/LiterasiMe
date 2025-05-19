@@ -10,7 +10,9 @@ import '../services/google_books_service.dart';
 import '../services/book_lookup_service.dart';
 import 'book_detail_page.dart';
 import 'scan_page.dart';
+import '../widgets/home_greeting_widget.dart';
 import 'package:html_unescape/html_unescape.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -67,7 +69,13 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const HomeGreetingWidget(),
+            SizedBox(height: 16),
+            Text('Cari Buku Berdasarkan ISBN', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)), // <<< INI TAMBAHAN KITA
+            const SizedBox(height: 16),
+
             TextField(
               controller: isbnController,
               focusNode: _isbnFocus,
