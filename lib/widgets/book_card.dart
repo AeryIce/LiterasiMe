@@ -1,53 +1,69 @@
 import 'package:flutter/material.dart';
+import '../../pages/book_detail_page.dart';
 
 class BookCard extends StatelessWidget {
   final String title;
+  final String subtitle;
   final String authors;
   final String thumbnail;
+  final String isbn;
+  final bool showBadge;
 
   const BookCard({
-    super.key,
+    Key? key,
     required this.title,
+    required this.subtitle,
     required this.authors,
     required this.thumbnail,
-  });
+    required this.isbn,
+    this.showBadge = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      child: SizedBox(
-        width: 120,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.network(
-              thumbnail,
-              height: 100,
-              width: 120,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => const Icon(Icons.broken_image),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Text(
-                title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (_) => BookDetailPage(isbn: isbn),
+        ));
+      },
+      child: Stack(
+        children: [
+          Container(
+            width: 140,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              image: DecorationImage(
+                image: NetworkImage(thumbnail),
+                fit: BoxFit.cover,
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 6,
+                  offset: Offset(0, 4),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: Text(
-                authors,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 12),
+          ),
+          if (showBadge)
+            Positioned(
+              top: 8,
+              left: 8,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: Colors.redAccent,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  'Update Minggu Ini',
+                  style: TextStyle(color: Colors.white, fontSize: 10),
+                ),
               ),
-            ),
-          ],
-        ),
+            )
+        ],
       ),
     );
   }

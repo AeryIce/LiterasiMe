@@ -1,3 +1,4 @@
+import '../widgets/nyt_pure_carousel_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,7 +13,15 @@ import 'book_detail_page.dart';
 import 'scan_page.dart';
 import '../widgets/home_greeting_widget.dart';
 import 'package:html_unescape/html_unescape.dart';
-
+//import '../widgets/nyt_profile_carousel.dart';
+//import '../widgets/nyt_result_carousel.dart';
+//import '../models/nyt_book_model.dart';
+//import '../services/nyt_books_service.dart';
+import '../models/hybrid_book_model.dart';
+//import '../services/nyt_books_service_hybrid.dart';
+//import '../utils/ddc_nyt_mapping.dart';
+//import '../utils/book_category_to_nyt.dart';
+import '../utils/book_category_to_nyt.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,12 +37,14 @@ class _HomePageState extends State<HomePage> {
 
   List<Book> recommendations = [];
   Book? book;
+  //   List<HybridBook> nytBooks = [];
   bool isLoading = false;
   bool isScanMode = false;
 
   @override
   void initState() {
     super.initState();
+    fetchMultiGenreRecommendations();
   }
 
   @override
@@ -61,6 +72,50 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void fetchNYTBooks() async {
+    //     final result = await NYTBooksService.fetchHybridBooks();
+    setState(() {
+      //       nytBooks = result;
+    });
+  }
+
+  void fetchMultiGenreRecommendations() async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) return;
+
+    final doc =
+        await FirebaseFirestore.instance
+            .collection('user_meta')
+            .doc(userId)
+            .get();
+    final genres = List<String>.from(doc['preferred_genres'] ?? []);
+    print("🎯 Preferred genres user: $genres");
+
+    //List<HybridBook> allBooks = [];
+
+    for (final genre in genres) {
+      //final mapped = subcategoryToNYTList[genre];
+      //print("🧠 Mapping genre '\$genre' → \$mapped");
+      //final mapped = subcategoryToNYTList[genre];
+      final listName = smartMapGenreToNYT(genre);
+      print("🧠 Smart Mapping: $genre → $listName");
+      // if (mapped != null) {
+      //       //   final books = await NYTBooksService.fetchHybridBooks(listName: mapped);
+      //   allBooks.addAll(books);
+      // }
+      //print("🧠 Mapping genre '\$genre' → \$mapped");
+      //final listName = subcategoryToNYTList[genre] ?? 'paperback-nonfiction';
+      //       final books = await NYTBooksService.fetchHybridBooks(listName: listName);
+      //allBooks.addAll(books);
+    }
+
+    //print("🔥 Total NYT buku yang dimuat: \${allBooks.length}");
+    //print("🔥 Total NYT buku yang dimuat: ${allBooks.length}");
+    setState(() {
+      //       nytBooks = allBooks;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +128,10 @@ class _HomePageState extends State<HomePage> {
           children: [
             const HomeGreetingWidget(),
             SizedBox(height: 16),
-            Text('Cari Buku Berdasarkan ISBN', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)), // <<< INI TAMBAHAN KITA
+            Text(
+              'Cari Buku Berdasarkan ISBN',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ), // <<< INI TAMBAHAN KITA
             const SizedBox(height: 16),
 
             TextField(
@@ -210,6 +268,11 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 16),
 
+            //             nytBooks.isEmpty
+            //               ? const Text("⚠️ NYT kosong")
+            //                 : NYTProfileCarousel(books: nytBooks),
+            //             if (book != null && nytBooks.isNotEmpty)
+            //               NYTResultCarousel(books: nytBooks),
             if (book != null && !isLoading) ...[
               Card(
                 elevation: 2,
@@ -230,17 +293,27 @@ class _HomePageState extends State<HomePage> {
                   ),
                   trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => BookDetailPage(book: book!),
-                      ),
-                    );
+                    if (book != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (_) => BookDetailPage(
+                                isbn: (book! as HybridBook).isbn,
+                              ),
+                        ),
+                      );
+                    }
                   },
                 ),
               ),
+              const SizedBox(height: 12),
+              //               nytBooks.isEmpty
+              //                 ? const Text("⚠️ NYT kosong")
+              //                   : NYTProfileCarousel(books: nytBooks),
+              //               if (book != null && nytBooks.isNotEmpty)
+              //                 NYTResultCarousel(books: nytBooks),
             ],
-
             // Riwayat dari Firestore
             StreamBuilder<QuerySnapshot>(
               stream:

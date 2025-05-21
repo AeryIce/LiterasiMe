@@ -22,12 +22,16 @@ class _ProfilePageState extends State<ProfilePage> {
   String? readingTime;
 
   final List<String> genreOptions = [
-    'Fiksi',
-    'Non-Fiksi',
-    'Self-Help',
-    'Biografi',
-    'Fantasi',
-    'Teknologi',
+    'Computer Science, Information',
+    'Philosophy and Psychology',
+    'Religion',
+    'Social Sciences',
+    'Language',
+    'Science',
+    'Technology',
+    'Arts and Recreation',
+    'Literature',
+    'History and Geography',
   ];
 
   final List<String> readingGoals = [
