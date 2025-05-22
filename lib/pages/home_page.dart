@@ -307,13 +307,15 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
-              const SizedBox(height: 12),
+
               //               nytBooks.isEmpty
               //                 ? const Text("⚠️ NYT kosong")
               //                   : NYTProfileCarousel(books: nytBooks),
               //               if (book != null && nytBooks.isNotEmpty)
               //                 NYTResultCarousel(books: nytBooks),
             ],
+            const SizedBox(height: 12),
+            const NYTPureCarouselWidget(),
             // Riwayat dari Firestore
             StreamBuilder<QuerySnapshot>(
               stream:
@@ -513,6 +515,8 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ],
+            const SizedBox(height: 24),
+
             SizedBox(height: 24),
             ElevatedButton(
               onPressed: () async {
