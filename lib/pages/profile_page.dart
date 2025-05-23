@@ -32,6 +32,14 @@ class _ProfilePageState extends State<ProfilePage> {
     'Arts and Recreation',
     'Literature',
     'History and Geography',
+    'Children',
+    'Comics and Manga',
+    'Health',
+    'Young Adult',
+    'Series Books',
+    'SelfHelp',
+    'Economics',
+    'NonFiction',
   ];
 
   final List<String> readingGoals = [

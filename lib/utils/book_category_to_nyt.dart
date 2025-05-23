@@ -137,7 +137,7 @@ final Map<String, String> ddcToNytMap = {
 // }
 
 /// Fuzzy genre mapping using contains-style matching (like SQL LIKE '%genre%')
-String smartMapGenreToNYT(String inputGenre) {
+String? smartMapGenreToNYT(String inputGenre) {
   final lowerInput = inputGenre.toLowerCase();
   final match = bookCategoryToNYTList.keys.firstWhere(
     (key) => key.toLowerCase().contains(lowerInput),

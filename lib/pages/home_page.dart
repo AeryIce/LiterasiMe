@@ -22,6 +22,7 @@ import '../models/hybrid_book_model.dart';
 //import '../utils/ddc_nyt_mapping.dart';
 //import '../utils/book_category_to_nyt.dart';
 import '../utils/book_category_to_nyt.dart';
+import '../widgets/nyt_ready_to_read_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -314,6 +315,8 @@ class _HomePageState extends State<HomePage> {
               //               if (book != null && nytBooks.isNotEmpty)
               //                 NYTResultCarousel(books: nytBooks),
             ],
+            const SizedBox(height: 12),
+            const NYTReadyToReadWidget(),
             const SizedBox(height: 12),
             const NYTPureCarouselWidget(),
             // Riwayat dari Firestore
