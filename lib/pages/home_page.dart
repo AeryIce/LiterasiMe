@@ -17,7 +17,7 @@ import 'package:html_unescape/html_unescape.dart';
 //import '../widgets/nyt_result_carousel.dart';
 //import '../models/nyt_book_model.dart';
 //import '../services/nyt_books_service.dart';
-import '../models/hybrid_book_model.dart';
+//import '../models/hybrid_book_model.dart';
 //import '../services/nyt_books_service_hybrid.dart';
 //import '../utils/ddc_nyt_mapping.dart';
 //import '../utils/book_category_to_nyt.dart';
@@ -298,10 +298,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder:
-                              (_) => BookDetailPage(
-                                isbn: (book! as HybridBook).isbn,
-                              ),
+                          builder: (_) => BookDetailPage(isbn: book!.isbn),
                         ),
                       );
                     }

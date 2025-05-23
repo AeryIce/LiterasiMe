@@ -1,4 +1,5 @@
 class Book {
+  final String isbn;
   final String title;
   final String subtitleOrSnippet;
   final String authors;
@@ -11,6 +12,7 @@ class Book {
   final List<String> categories;
 
   Book({
+    required this.isbn,
     required this.title,
     required this.subtitleOrSnippet,
     required this.authors,
@@ -37,7 +39,18 @@ class Book {
       dimensionString = '$h x $w x $t';
     }
 
+    final identifiers = volumeInfo['industryIdentifiers'] ?? [];
+    String isbn = 'unknown';
+    if (identifiers.isNotEmpty) {
+      final match = identifiers.firstWhere(
+        (id) => id['type'] == 'ISBN_13',
+        orElse: () => {'identifier': 'unknown'},
+      );
+      isbn = match['identifier'];
+    }
+
     return Book(
+      isbn: isbn,
       title: volumeInfo['title'] ?? 'Tanpa Judul',
       subtitleOrSnippet:
           volumeInfo['subtitle'] ??

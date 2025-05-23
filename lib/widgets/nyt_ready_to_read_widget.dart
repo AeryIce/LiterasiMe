@@ -26,10 +26,13 @@ class _NYTReadyToReadWidgetState extends State<NYTReadyToReadWidget> {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return;
 
-    final doc = await FirebaseFirestore.instance.collection('user_meta').doc(uid).get();
+    final doc =
+        await FirebaseFirestore.instance.collection('user_meta').doc(uid).get();
     final genres = List<String>.from(doc['preferred_genres'] ?? []);
 
-    final fetchedBooks = await NYTReadyToReadService.fetchBooksForUserGenres(genres);
+    final fetchedBooks = await NYTReadyToReadService.fetchBooksForUserGenres(
+      genres,
+    );
     setState(() {
       books = fetchedBooks;
       isLoading = false;
@@ -41,14 +44,37 @@ class _NYTReadyToReadWidgetState extends State<NYTReadyToReadWidget> {
     if (isLoading) {
       return const Padding(
         padding: EdgeInsets.all(16),
-        child: Text("Menyiapkan rekomendasi terbaik untukmu..."),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "🔄 Sedang menyiapkan rekomendasi terbaik untukmu...",
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 12),
+            LinearProgressIndicator(),
+          ],
+        ),
       );
     }
 
     if (books.isEmpty) {
       return const Padding(
         padding: EdgeInsets.all(16),
-        child: Text("Belum ada rekomendasi tersedia saat ini."),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "🙏 Maaf, kami belum menemukan rekomendasi yang cocok untukmu saat ini.",
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 8),
+            Text(
+              "Coba perbarui preferensi genremu di halaman profil, ya!",
+              style: TextStyle(fontSize: 14, color: Colors.grey),
+            ),
+          ],
+        ),
       );
     }
 
@@ -58,7 +84,7 @@ class _NYTReadyToReadWidgetState extends State<NYTReadyToReadWidget> {
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            "Rekomendasi Buku Untukmu 📚",
+            "Cocok Buatmu 🌟",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
