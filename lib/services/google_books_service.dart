@@ -2,12 +2,23 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/book_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hive/hive.dart';
 
 class GoogleBooksService {
-  
   static final String _apiKey = dotenv.env['GOOGLE_BOOKS_API_KEY'] ?? '';
 
   static Future<Book?> fetchBookByISBN(String isbn) async {
+    final box = await Hive.openBox<Map>('google_books_cache');
+
+    // 1. Cek cache dulu
+    final cachedJson = box.get(isbn);
+    if (cachedJson != null) {
+      _updateCacheInBackground(isbn, box); // update background
+      return Book.fromJson(Map<String, dynamic>.from(cachedJson));
+    }
+
+    // 2. Kalau tidak ada, fetch seperti biasa
+
     final url = Uri.parse(
       'https://www.googleapis.com/books/v1/volumes?q=isbn:$isbn&key=$_apiKey',
     );
@@ -85,5 +96,41 @@ class GoogleBooksService {
     }
 
     return [];
+  }
+
+  static Future<void> _updateCacheInBackground(
+    String isbn,
+    Box<Map> box,
+  ) async {
+    try {
+      final url = Uri.parse(
+        'https://www.googleapis.com/books/v1/volumes?q=isbn:\$isbn&key=\$_apiKey',
+      );
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['totalItems'] > 0) {
+          final json1 = data['items'][0];
+          final selfLink = json1['selfLink'];
+
+          final volumeInfoDetail = await _fetchBookDetailsFromSelfLink(
+            selfLink,
+          );
+          json1['volumeInfo'] = {...?json1['volumeInfo'], ...volumeInfoDetail};
+
+          //final book = Book.fromJson(json1);
+          await box.put(isbn, json1);
+
+          // Trim jika lebih dari 100
+          if (box.length > 100) {
+            final oldestKey = box.keys.first;
+            await box.delete(oldestKey);
+          }
+        }
+      }
+    } catch (_) {
+      // Silent fail
+    }
   }
 }
