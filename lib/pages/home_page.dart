@@ -316,6 +316,7 @@ class _HomePageState extends State<HomePage> {
             const NYTReadyToReadWidget(),
             const SizedBox(height: 12),
             const NYTPureCarouselWidget(),
+
             // Riwayat dari Firestore
             StreamBuilder<QuerySnapshot>(
               stream:
@@ -360,14 +361,17 @@ class _HomePageState extends State<HomePage> {
                                   as Map<String, dynamic>;
 
                           return GestureDetector(
-                            onTap: () async {
-                              setState(() => book = null);
-                              final newBook =
-                                  await GoogleBooksService.fetchBookByISBN(
-                                    data['title'],
-                                  );
-                              setState(() => book = newBook);
-                              await handleScanResult(context, data['title']);
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (_) => BookDetailPage(
+                                        isbn: data['isbn'],
+                                        source: "history",
+                                      ),
+                                ),
+                              );
                             },
                             child: Container(
                               width: 110,

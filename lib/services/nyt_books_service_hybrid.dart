@@ -89,7 +89,7 @@ class NYTBooksService {
     for (String genre in genres) {
       final listName = smartMapGenreToNYT(genre);
       // uses mapping + fallback
-      final books = await fetchHybridBooks(listName: listName);
+      final books = await fetchHybridBooks(listName: listName!);
 
       for (var book in books) {
         if (!seenIsbns.contains(book.isbn)) {

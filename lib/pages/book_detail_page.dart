@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import '../models/book_model.dart';
 import '../services/google_books_service.dart';
@@ -8,8 +7,23 @@ import 'package:google_fonts/google_fonts.dart';
 
 class BookDetailPage extends StatefulWidget {
   final String isbn;
+  final String? source;
+  final int? rank;
+  final String? title;
+  final String? imageUrl;
+  final String? author;
+  final String? description;
 
-  const BookDetailPage({super.key, required this.isbn});
+  const BookDetailPage({
+    super.key,
+    required this.isbn,
+    this.source,
+    this.rank,
+    this.title,
+    this.imageUrl,
+    this.author,
+    this.description,
+  });
 
   @override
   State<BookDetailPage> createState() => _BookDetailPageState();
@@ -50,7 +64,9 @@ class _BookDetailPageState extends State<BookDetailPage> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
+                        boxShadow: [
+                          BoxShadow(color: Colors.black12, blurRadius: 6),
+                        ],
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
@@ -61,7 +77,10 @@ class _BookDetailPageState extends State<BookDetailPage> {
                 const SizedBox(height: 16),
                 Text(
                   book.title,
-                  style: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.nunito(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 6),
                 Text(
@@ -71,7 +90,9 @@ class _BookDetailPageState extends State<BookDetailPage> {
                 const SizedBox(height: 20),
 
                 Card(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                   elevation: 3,
                   color: Colors.blueGrey[50],
                   child: Padding(
@@ -81,9 +102,18 @@ class _BookDetailPageState extends State<BookDetailPage> {
                       children: [
                         _infoRow(Icons.person, 'Penulis: ${book.authors}'),
                         _infoRow(Icons.business, 'Penerbit: ${book.publisher}'),
-                        _infoRow(Icons.date_range, 'Terbit: ${book.publishedDate}'),
-                        _infoRow(Icons.pages, 'Jumlah halaman: ${book.pageCount}'),
-                        _infoRow(Icons.straighten, 'Ukuran buku: ${book.dimensions}'),
+                        _infoRow(
+                          Icons.date_range,
+                          'Terbit: ${book.publishedDate}',
+                        ),
+                        _infoRow(
+                          Icons.pages,
+                          'Jumlah halaman: ${book.pageCount}',
+                        ),
+                        _infoRow(
+                          Icons.straighten,
+                          'Ukuran buku: ${book.dimensions}',
+                        ),
                       ],
                     ),
                   ),
@@ -106,13 +136,16 @@ class _BookDetailPageState extends State<BookDetailPage> {
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 8,
-                    children: book.categories
-                        .map((cat) => Chip(
-                              label: Text(cat),
-                              backgroundColor: Colors.indigo.shade50,
-                              labelStyle: GoogleFonts.nunito(),
-                            ))
-                        .toList(),
+                    children:
+                        book.categories
+                            .map(
+                              (cat) => Chip(
+                                label: Text(cat),
+                                backgroundColor: Colors.indigo.shade50,
+                                labelStyle: GoogleFonts.nunito(),
+                              ),
+                            )
+                            .toList(),
                   ),
                 ],
 

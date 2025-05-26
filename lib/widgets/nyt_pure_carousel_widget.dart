@@ -1,10 +1,9 @@
 
-// NYT Carousel dengan style Riwayat Pencarian
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../pages/nyt_pure_book_detail_page.dart';
+import 'package:literasime/pages/book_detail_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class NYTPureCarouselWidget extends StatefulWidget {
@@ -43,7 +42,7 @@ class _NYTPureCarouselWidgetState extends State<NYTPureCarouselWidget> {
         nytBooks = data['results']['books'] ?? [];
       });
     } catch (e) {
-      print('Error loading NYT data: $e');
+      print('Error loading NYT data: \$e');
     }
   }
 
@@ -54,24 +53,18 @@ class _NYTPureCarouselWidgetState extends State<NYTPureCarouselWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 16),
-        Align(
-          alignment: Alignment.centerLeft,
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Text(
-            'Best Seller Pilihan NYT Minggu Ini 🔥',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
+            "Best Seller Pilihan NYT Minggu Ini",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
-        const SizedBox(height: 8),
         SizedBox(
-          height: 160,
-          child: ListView.separated(
+          height: 230,
+          child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: nytBooks.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
             itemBuilder: (context, index) {
               final book = nytBooks[index];
               return GestureDetector(
@@ -79,55 +72,40 @@ class _NYTPureCarouselWidgetState extends State<NYTPureCarouselWidget> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => NYTPureBookDetailPage(book: book),
+                      builder: (_) => BookDetailPage(
+                        isbn: book['primary_isbn13'],
+                        source: "nyt",
+                        rank: book['rank'],
+                        title: book['title'],
+                        imageUrl: book['book_image'],
+                        author: book['author'],
+                        description: book['description'],
+                      ),
                     ),
                   );
                 },
                 child: Container(
                   width: 110,
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.brown.shade50,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Colors.brown.shade100,
-                      width: 0.8,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color.fromRGBO(121, 85, 72, 0.15),
-                        blurRadius: 3,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
+                  margin: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      book['book_image'] != null && book['book_image'] != ''
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(6),
-                              child: Image.network(
-                                book['book_image'],
-                                height: 80,
-                              ),
-                            )
-                          : Icon(
-                              Icons.book,
-                              size: 60,
-                              color: Colors.brown,
-                            ),
-                      const SizedBox(height: 6),
-                      Text(
-                        book['title'] ?? '',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          height: 1.2,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.network(
+                          book['book_image'],
+                          width: 110,
+                          height: 160,
+                          fit: BoxFit.cover,
                         ),
                       ),
+                      const SizedBox(height: 6),
+                      // Text(
+                      //   "#${book['rank']} - ${book['title']}",
+                      //   maxLines: 2,
+                      //   overflow: TextOverflow.ellipsis,
+                      //   style: const TextStyle(fontWeight: FontWeight.w600),
+                      // ),
                     ],
                   ),
                 ),
